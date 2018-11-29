@@ -8,7 +8,7 @@ in the following SpaceX video:
 [![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/txk-VO1hzBY/0.jpg)](https://youtu.be/txk-VO1hzBY?t=941)  
 
 [xt.py](xt.py) runs the compression on a grayscale image [cat.jpg](cat.jpg) 
-using nearest neighbor iterterpolation (the video shows linear interpolation).
+using nearest neighbor  (the video shows linear interpolation).
 
 The trick to make this fast is using numpy's vectorized operations.
 Anchor points can be selected by striding the input array in both dimensions. 
@@ -32,7 +32,7 @@ mask = np.abs(error) > epsilon
 compressed[::s,::s][mask] = error[mask]
 ```
 
-And then repeate with stride `s *= 2`
+And then repeat with stride `s *= 2`
 
 The result is a small set of anchor points, and the "compressed" image.
 This result image resembles a gradient image in that the values shown
@@ -40,7 +40,7 @@ represent the areas of greatest change. In order to actually reduce the
 memory footprint of the image, we can represent the image, which should contain
 mostly zeros, as a sparse matrix. It appears that the SpaceX adaptive grid
 uses a sparse representation similar to 'Dictionary of Keys' (DOK). Scipy has a 
-dok_matrix type, but unfortunately it does not extend to N dimentional tensors/arrays.
+dok_matrix type, but unfortunately it does not extend to N dimensional tensors/arrays.
 
 *(Side Note: only nearest neighbor (order=0) works for this code.
 A quick search shows that scipy.ndimage.zoom has several open issues on GitHub.
