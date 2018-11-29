@@ -54,7 +54,7 @@ def decompress(c, anchor, depth=1):
     return anchor
 
 if __name__ == "__main__":
-    im = cv2.imread('cat.png', 0)
+    im = cv2.imread('images/cat.png', 0)
     plt.imshow(im, cmap='gray'); plt.show()
 
 
@@ -65,7 +65,7 @@ if __name__ == "__main__":
 
     plt.imshow(c, cmap='gray'); plt.show()
     # Save compressed image
-    plt.imsave(f'c{epsilon}.png', 
+    plt.imsave(f'images/c{epsilon}.png', 
             np.interp(c, [c.min(), c.max()],[0, 255]).round(0).astype(np.uint8),
             cmap='gray')
 
@@ -74,4 +74,4 @@ if __name__ == "__main__":
     im2 = decompress(c, a, depth=depth).astype(np.uint8)
 
     plt.imshow(im2, cmap='gray'); plt.show()
-    plt.imsave(f'dc{epsilon}.png', im2, cmap='gray')
+    plt.imsave(f'images/dc{epsilon}.png', im2, cmap='gray')

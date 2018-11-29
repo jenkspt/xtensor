@@ -55,15 +55,15 @@ and adding back the stored errors.
 ## Examples
 
 ### Input:  
-![alt text](cat.png "Cat")
+![alt text](images/cat.png "Cat")
 ### Compressed
 * Epsilon = 0
 * Percent Non Zero = 62.04%
 
-![alt text](c0.png "Compressed Cat")
+![alt text](images/c0.png "Compressed Cat")
 
 ### Decompressed
-![alt text](dc0.png "Decompressed Cat")  
+![alt text](images/dc0.png "Decompressed Cat")  
 
 
 
@@ -72,10 +72,10 @@ and adding back the stored errors.
 * Epsilon = 2
 * Percent Non Zero = 40.00%
 
-![alt text](c2.png "Compressed Cat")
+![alt text](images/c2.png "Compressed Cat")
 
 
 ### Decompressed
-![alt text](dc2.png "Decompressed Cat")  
+![alt text](images/dc2.png "Decompressed Cat")  
 *Notice the blocky background. This would be smooth if a higher order
 interpolation was used*
