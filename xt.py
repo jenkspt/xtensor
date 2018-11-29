@@ -59,7 +59,7 @@ if __name__ == "__main__":
 
 
     depth = 7
-    epsilon = 0
+    epsilon = 2
 
     c, a = compress(im.astype(np.float32), depth=depth, epsilon=epsilon)
 
@@ -71,7 +71,7 @@ if __name__ == "__main__":
 
     dok = sparse.dok_matrix(c.copy())
     print(f'Percent Non Zero: {dok.nnz/np.product(dok.shape) * 100:.2f}%')
-    im2 = decompress(c, a, depth=depth).astype(np.uint8)
+    im2 = decompress(c, a, depth=depth)
 
     plt.imshow(im2, cmap='gray'); plt.show()
     plt.imsave(f'images/dc{epsilon}.png', im2, cmap='gray')
