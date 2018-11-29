@@ -58,7 +58,7 @@ and adding back the stored errors.
 ![alt text](images/cat.png "Cat")
 ### Compressed
 * Epsilon = 0
-* Percent Non Zero = 62.04%
+* Non-zero = 62.04%
 
 ![alt text](images/c0.png "Compressed Cat")
 
@@ -70,7 +70,7 @@ and adding back the stored errors.
 
 ### Compressed
 * Epsilon = 2
-* Percent Non Zero = 40.00%
+* Non-zero = 40.00%
 
 ![alt text](images/c2.png "Compressed Cat")
 
@@ -79,3 +79,14 @@ and adding back the stored errors.
 ![alt text](images/dc2.png "Decompressed Cat")  
 *Notice the blocky background. This would be smooth if a higher order
 interpolation was used*
+
+
+### Compressed
+* Epsilon = 25
+* Non-zero = 6.61%
+
+![alt text](images/c25.png "Compressed Cat")
+
+
+### Decompressed
+![alt text](images/dc25.png "Decompressed Cat")  
