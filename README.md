@@ -42,12 +42,6 @@ mostly zeros, as a sparse matrix. It appears that the SpaceX adaptive grid
 uses a sparse representation similar to 'Dictionary of Keys' (DOK). Scipy has a 
 dok_matrix type, but unfortunately it does not extend to N dimensional tensors/arrays.
 
-*(Side Note: only nearest neighbor (order=0) works for this code.
-A quick search shows that scipy.ndimage.zoom has several open issues on GitHub.
-[scipy.zoom issues](https://github.com/scipy/scipy/issues/7324).
-In order to make higher order interpolations work I need to adjust resize/zoom
-so that original pixel values are preserved.)*
-
 
 In short, the decompression works by interpolating between the anchor points,
 and adding back the stored errors.

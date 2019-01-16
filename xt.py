@@ -1,19 +1,24 @@
 import numpy as np
-from scipy.ndimage import zoom
+from scipy.ndimage import map_coordinates
 import scipy.sparse as sparse
 import cv2
 
 import matplotlib.pyplot as plt
 
-def compress(arr, depth=1, epsilon=0):
+def zoom(input, factor, order=0, mode='nearest'):
+    indices = np.indices(np.array(input.shape)*factor)/factor
+    return map_coordinates(input, indices, order=order, mode=mode)
+
+
+def compress(arr, depth=1, order=0, epsilon=0):
     """
     Args:
         arr     (ndarray): 2d array
         depth      (int) : Positive integer. Number of compression
+        order      (int) : Spline interpolation order
         iterations. 2^depth must be less than the min dimention of arr
         epsilon (float) : Threshold below which errors are set to zero
     """
-    order=0     # Use nearest neighbors interpolation
 
     compressed = np.zeros_like(arr)
     for i in range(depth):
@@ -32,15 +37,15 @@ def compress(arr, depth=1, epsilon=0):
     return compressed, anchor[::2,::2]
 
 
-def decompress(c, anchor, depth=1):
+def decompress(c, anchor, depth=1, order=0):
     """
     Args:
         arr     (ndarray):
         depth      (int) : Positive integer.
+        order      (int) : Spline interpolation order
         epsilon (number) :
             Should be a valid value in arr.dtype
     """
-    order = 0
 
     for i in reversed(range(depth)):
         s = 2**i
@@ -59,11 +64,13 @@ if __name__ == "__main__":
 
 
     depth = 7
-    epsilon = 2
+    epsilon = 10
+    order = 0
 
-    c, a = compress(im.astype(np.float32), depth=depth, epsilon=epsilon)
+    c, a = compress(im.astype(np.float32), depth=depth, order=order, epsilon=epsilon)
 
-    plt.imshow(c, cmap='gray'); plt.show()
+    cimg = np.interp(c, [-255,255],[0,1])
+    plt.imshow(cimg, cmap='gray'); plt.show()
     # Save compressed image
     plt.imsave(f'images/c{epsilon}.png', 
             np.interp(c, [c.min(), c.max()],[0, 255]).round(0).astype(np.uint8),
@@ -71,7 +78,10 @@ if __name__ == "__main__":
 
     dok = sparse.dok_matrix(c.copy())
     print(f'Percent Non Zero: {dok.nnz/np.product(dok.shape) * 100:.2f}%')
-    im2 = decompress(c, a, depth=depth)
+    im2 = decompress(c, a, depth=depth, order=order)
+
+    if epsilon == 0:
+        assert np.allclose(im, im2, atol=1e-6)
 
     plt.imshow(im2, cmap='gray'); plt.show()
     plt.imsave(f'images/dc{epsilon}.png', im2, cmap='gray')
