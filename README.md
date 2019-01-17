@@ -48,39 +48,84 @@ and adding back the stored errors.
 
 ## Examples
 
-### Input:  
-![alt text](images/cat.png "Cat")
-### Compressed
-* Epsilon = 0
-* Non-zero = 62.04%
+### Epsilon: 0
+|Interpolation|Non-Zero|Compressed|Decompressed|
+|:---:        |:---:|:---:     |:---:       |
+|nearest      |65.6%|![c-0-0]  |![d-0-0]    |
+|bilinear     |74.3%|![c-0-1]  |![d-0-1]    |
+|bicubic      |98.4%|![c-0-3]  |![d-0-3]    |
 
-![alt text](images/c0.png "Compressed Cat")
+### Epsilon: 2.5
+|Interpolation|Non-Zero|Compressed|Decompressed|Error|%|
+|:---:        |:---:|:---:     |:---:       |:---:|:---:|
+|nearest      |40.3%|![c-2.5-0]  |![d-2.5-0]    |![e-2.5-0]|0.9%|
+|bilinear     |35.0%|![c-2.5-1]  |![d-2.5-1]    |![e-2.5-1]|0.7%|
+|bicubic      |36.0%|![c-2.5-3]  |![d-2.5-3]    |![e-2.5-3]|0.9%|
 
-### Decompressed
-![alt text](images/dc0.png "Decompressed Cat")  
-
-
-
-
-### Compressed
-* Epsilon = 2
-* Non-zero = 40.00%
-
-![alt text](images/c2.png "Compressed Cat")
-
-
-### Decompressed
-![alt text](images/dc2.png "Decompressed Cat")  
-*Notice the blocky background. This would be smooth if a higher order
-interpolation was used*
+### Epsilon: 10
+|Interpolation|Non-Zero|Compressed|Decompressed|Error|%|
+|:---:        |:---:|:---:     |:---:       |:---:|:---:|
+|nearest      |18.7%|![c-10-0]  |![d-10-0]    |![e-10-0]|4.4%|
+|bilinear     |13.2%|![c-10-1]  |![d-10-1]    |![e-10-1]|3.9%|
+|bicubic      |14.1%|![c-10-3]  |![d-10-3]    |![e-10-3]|4.3%|
 
 
-### Compressed
-* Epsilon = 25
-* Non-zero = 6.61%
+### Epsilon: 25
+|Interpolation|Non-Zero|Compressed|Decompressed|Error|%|
+|:---:        |:---:|:---:     |:---:       |:---:|:---:|
+|nearest      |6.7%|![c-25-0]  |![d-25-0]    |![e-25-0]|11.1%|
+|bilinear     |3.6%|![c-25-1]  |![d-25-1]    |![e-25-1]|9.1%|
+|bicubic      |3.9%|![c-25-3]  |![d-25-3]    |![e-25-3]|10.1%|
 
-![alt text](images/c25.png "Compressed Cat")
+
+[c-0-0]: images/c_eps-0_ord-0.png
+[d-0-0]: images/dc_eps-0_ord-0.png 
+[e-0-0]: images/error_eps-0_ord-0.png 
+
+[c-0-1]: images/c_eps-0_ord-1.png 
+[d-0-1]: images/dc_eps-0_ord-1.png 
+[e-0-1]: images/error_eps-0_ord-1.png 
+
+[c-0-3]: images/c_eps-0_ord-3.png 
+[d-0-3]: images/dc_eps-0_ord-3.png 
+[e-0-3]: images/error_eps-0_ord-3.png 
 
 
-### Decompressed
-![alt text](images/dc25.png "Decompressed Cat")  
+[c-2.5-0]: images/c_eps-2.5_ord-0.png
+[d-2.5-0]: images/dc_eps-2.5_ord-0.png 
+[e-2.5-0]: images/error_eps-2.5_ord-0.png 
+
+[c-2.5-1]: images/c_eps-2.5_ord-1.png 
+[d-2.5-1]: images/dc_eps-2.5_ord-1.png 
+[e-2.5-1]: images/error_eps-2.5_ord-1.png 
+
+[c-2.5-3]: images/c_eps-2.5_ord-3.png 
+[d-2.5-3]: images/dc_eps-2.5_ord-3.png 
+[e-2.5-3]: images/error_eps-2.5_ord-3.png 
+
+
+[c-10-0]: images/c_eps-10_ord-0.png 
+[d-10-0]: images/dc_eps-10_ord-0.png 
+[e-10-0]: images/error_eps-10_ord-0.png 
+
+[c-10-1]: images/c_eps-10_ord-1.png 
+[d-10-1]: images/dc_eps-10_ord-1.png 
+[e-10-1]: images/error_eps-10_ord-1.png 
+
+[c-10-3]: images/c_eps-10_ord-3.png 
+[d-10-3]: images/dc_eps-10_ord-3.png 
+[e-10-3]: images/error_eps-10_ord-3.png 
+
+
+[c-25-0]: images/c_eps-25_ord-0.png
+[d-25-0]: images/dc_eps-25_ord-0.png
+[e-25-0]: images/error_eps-25_ord-0.png
+
+[c-25-1]: images/c_eps-25_ord-1.png
+[d-25-1]: images/dc_eps-25_ord-1.png
+[e-25-1]: images/error_eps-25_ord-1.png
+
+[c-25-3]: images/c_eps-25_ord-3.png
+[d-25-3]: images/dc_eps-25_ord-3.png
+[e-25-3]: images/error_eps-25_ord-3.png
+

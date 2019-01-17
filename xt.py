@@ -1,7 +1,7 @@
 import numpy as np
 from scipy.ndimage import map_coordinates
 import scipy.sparse as sparse
-import cv2
+from PIL import Image
 
 import matplotlib.pyplot as plt
 
@@ -59,29 +59,34 @@ def decompress(c, anchor, depth=1, order=0):
     return anchor
 
 if __name__ == "__main__":
-    im = cv2.imread('images/cat.png', 0)
-    plt.imshow(im, cmap='gray'); plt.show()
 
+    def to_pil_image(x, dtype=np.uint8):
+        scaled = np.interp(x, [x.min(), x.max()], [0,255])
+        scaled = np.clip(scaled.round(0),0,255).astype(dtype)
+        return Image.fromarray(scaled)
 
+    im = Image.open('images/cat-gray.png')
+    
     depth = 7
-    epsilon = 10
-    order = 0
 
-    c, a = compress(im.astype(np.float32), depth=depth, order=order, epsilon=epsilon)
+    # Scale image to reduce floating point errors
+    input = np.array(im, dtype=np.float32)/255
 
-    cimg = np.interp(c, [-255,255],[0,1])
-    plt.imshow(cimg, cmap='gray'); plt.show()
-    # Save compressed image
-    plt.imsave(f'images/c{epsilon}.png', 
-            np.interp(c, [c.min(), c.max()],[0, 255]).round(0).astype(np.uint8),
-            cmap='gray')
+    for order in (0,1,3):
+        for epsilon in (0, 2.5, 10, 25):
 
-    dok = sparse.dok_matrix(c.copy())
-    print(f'Percent Non Zero: {dok.nnz/np.product(dok.shape) * 100:.2f}%')
-    im2 = decompress(c, a, depth=depth, order=order)
+            c, a = compress(input, depth=depth, order=order, epsilon=epsilon/255)
+            pnz = len(c.nonzero()[0])/c.size * 100    # Percent non-zero
+            cim = to_pil_image(c).save(f'images/c_eps-{epsilon}_ord-{order}.png')
 
-    if epsilon == 0:
-        assert np.allclose(im, im2, atol=1e-6)
+            #dok = sparse.dok_matrix(c.copy())
+            dc = decompress(c, a, depth=depth, order=order)
+            dcim = to_pil_image(dc).save(f'images/dc_eps-{epsilon}_ord-{order}.png')
 
-    plt.imshow(im2, cmap='gray'); plt.show()
-    plt.imsave(f'images/dc{epsilon}.png', im2, cmap='gray')
+            error = dc - input
+            perr = np.abs(error*255).round(0).sum()/error.size
+            dcim = to_pil_image(error).save(f'images/error_eps-{epsilon}_ord-{order}.png')
+            print(f'Epsilon: {epsilon}, order: {order}, non-zero: {pnz:.1f}%, error {perr:.1f}%')
+
+            if epsilon == 0:
+                assert np.allclose(input, dc, atol=1e-6)
